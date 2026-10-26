@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>AIoT Classroom | Live Sensor Monitor</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-symbol">A</div><div><strong>AIoT Classroom</strong><small>Energy & activity monitor</small></div></div>
+      <div class="navitem selected">▦ &nbsp; Live overview</div>
+      <div class="navitem">◷ &nbsp; Sensor history</div>
+      <div class="sidefoot">Arduino Uno · USB Serial<br><span>No simulated readings</span></div>
+    </aside>
+    <main>
+      <header><div><p class="eyebrow">CLASSROOM MONITORING</p><h1>Live Overview</h1><p class="subtitle">Six-sensor measurements · updated every 2 seconds</p></div><div class="connection" id="connection"><span class="dot"></span><span>Waiting for Arduino</span></div></header>
+      <div id="connectionMessage" class="notice">Connect Arduino to start receiving real sensor data.</div>
+      <div class="summary">
+        <div class="summaryItem"><span>Activity evidence</span><strong id="activity">Waiting for data</strong><small>IR and vibration only; not a people count</small></div>
+        <div class="summaryItem"><span>Energy monitoring</span><strong id="energy">Waiting for data</strong><small>Rule-based indication, not a trained AI prediction</small></div>
+        <div class="summaryItem"><span>Last sensor update</span><strong id="lastUpdate">—</strong><small id="lastAge">No measurements yet</small></div>
+      </div>
+      <div class="sectionTitle"><h2>Live sensor readings</h2><span id="portLabel">Port: —</span></div>
+      <div class="cards">
+        <section class="sensor"><div class="sensorHead"><span class="emoji">🌡️</span><span>Temperature</span></div><div class="metric" id="temperature">—</div><div class="sub">DHT11 · D2</div></section>
+        <section class="sensor"><div class="sensorHead"><span class="emoji">💧</span><span>Humidity</span></div><div class="metric" id="humidity">—</div><div class="sub">DHT11 · D2</div></section>
+        <section class="sensor"><div class="sensorHead"><span class="emoji">◉</span><span>Gas sensor</span></div><div class="metric" id="gas">—</div><div class="sub" id="gasStatus">MQ analog · A0 (raw ADC, not ppm)</div></section>
+        <section class="sensor"><div class="sensorHead"><span class="emoji">☀</span><span>Light level</span></div><div class="metric" id="light">—</div><div class="sub" id="lightStatus">LDR analog · A1</div></section>
+        <section class="sensor"><div class="sensorHead"><span class="emoji">ϟ</span><span>Current</span></div><div class="metric" id="current">—</div><div class="sub" id="currentStatus">ACS712 · A2</div></section>
+        <section class="sensor"><div class="sensorHead"><span class="emoji">〰</span><span>Vibration</span></div><div class="metric small" id="vibration">—</div><div class="sub">SW-420 · D3 · four-second hold</div></section>
+        <section class="sensor"><div class="sensorHead"><span class="emoji">⌖</span><span>IR detection</span></div><div class="metric small" id="ir">—</div><div class="sub">IR module · D4</div></section>
+        <section class="sensor"><div class="sensorHead"><span class="emoji">#</span><span>IR detection events</span></div><div class="metric" id="irEvents">—</div><div class="sub">Detection events, not student count</div></section>
+      </div>
+      <div class="sectionTitle lower"><h2>Live history</h2><span>Latest 120 readings · 4 minutes approximately</span></div>
+      <section class="chartbox"><div class="chartToolbar"><label for="chartMetric">Metric</label><select id="chartMetric"><option value="temperature_c">Temperature (°C)</option><option value="humidity_pct">Humidity (%)</option><option value="gas_raw">Gas (raw ADC)</option><option value="ldr_raw">Light (raw ADC)</option><option value="current_a">Current (A) — detected loads only</option></select></div><canvas id="trend" width="980" height="215" aria-label="Live sensor history chart" role="img"></canvas><p class="chartnote">No readings are generated when a sensor value is unavailable.</p></section>
+      <section class="detailrow"><div><h2>Implementation status</h2><p>The hardware readings are live. Occupancy AI is <b>not yet trained</b>; activity and possible-waste messages are cautious demo rules, not proof that the classroom is empty.</p></div><div><h2>Serial feed</h2><p>Arduino reports every 2 seconds. The Python console mirrors its human-readable Serial Monitor messages while the dashboard holds the USB COM port.</p></div></section>
+    </main>
+  </div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
